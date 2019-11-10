@@ -12,7 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.practice.springdemo.entity.Customer;
 
 @Repository // For Spring to component scan and find this repository
-			// Also handle exception translation for us: converts checked exceptions into unchecked ones for us
+			// Also handle exception translation for us: converts checked
+			// exceptions into unchecked ones for us
 			// Always applied to DAO implementations
 public class CustomerDAOImpl implements CustomerDAO {
 
@@ -21,14 +22,13 @@ public class CustomerDAOImpl implements CustomerDAO {
 	private SessionFactory sessionFactory;
 
 	@Override
-	@Transactional // Makes spring handles transaction start and commit
 	public List<Customer> getCustomers() {
 
 		// get the current hibernate session
 		Session currentSession = sessionFactory.getCurrentSession();
 
-		// create a query
-		Query<Customer> query = currentSession.createQuery("from Customer", Customer.class);
+		// create a query, sort by first name
+		Query<Customer> query = currentSession.createQuery("from Customer order by firstName", Customer.class);
 
 		// execute the query and get result list
 		List<Customer> customers = query.getResultList();
@@ -36,6 +36,28 @@ public class CustomerDAOImpl implements CustomerDAO {
 		// return result list
 		return customers;
 
+	}
+
+	@Override
+	public void saveCustomer(Customer theCustomer) {
+
+		// get current hibernate session
+		Session currentSession = sessionFactory.getCurrentSession();
+
+		// save/update the customer
+		currentSession.saveOrUpdate(theCustomer);
+	}
+
+	@Override
+	public Customer getCustomer(int theId) {
+
+		// get current hibernate session
+		Session currentSession = sessionFactory.getCurrentSession();
+
+		// now retrieve the customer from database using primary key
+		Customer theCustomer = currentSession.get(Customer.class, theId);
+
+		return theCustomer;
 	}
 
 }
