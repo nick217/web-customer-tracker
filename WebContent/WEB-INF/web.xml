@@ -7,6 +7,11 @@
 	<display-name>spring-mvc-demo</display-name>
 
 	<absolute-ordering />
+	<!-- look for theses files in top-down fashion -->
+	<welcome-file-list>
+		<welcome-file>index.jsp</welcome-file>
+		<welcome-file>index.html</welcome-file>
+	</welcome-file-list>
 
 	<!-- Spring MVC Configs -->
 
@@ -26,5 +31,5 @@
 		<servlet-name>dispatcher</servlet-name>
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
-	
+
 </web-app>
